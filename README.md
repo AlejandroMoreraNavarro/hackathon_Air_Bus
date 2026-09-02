@@ -6,7 +6,24 @@
 
 ---
 
-## 1. Philosophie du Pipeline : L'Intelligence Géométrique
+## Contexte et Objectifs du Projet
+Voler à basse altitude en hélicoptère comporte des risques majeurs, le principal danger résidant dans les collisions avec des obstacles difficiles à percevoir à l'œil nu ou à grande vitesse, tels que les lignes électriques, les pylônes, les antennes ou les éoliennes.
+
+Organisé par Airbus Helicopters, ce hackathon visait à développer une solution capable d'analyser les nuages de points fournis par un capteur Lidar embarqué. L'objectif était triple :
+
+Détecter la présence des obstacles dans l'espace environnant.
+
+Classifier chaque objet parmi quatre catégories cibles (antennes, câbles, pylônes électriques, éoliennes).
+
+Reconstruire les dimensions 3D (boîtes englobantes / bounding boxes) de chaque obstacle pour permettre l'anticipation des trajectoires et renforcer la sécurité du vol.
+
+### Le défi des données
+Les données d'entraînement fournies représentaient jusqu'à 575 000 points bruts par seconde, sans aucune boîte 3D préexistante pour superviser l'apprentissage. Il a donc fallu concevoir un algorithme autonome capable de reconstruire ces formes géométriques à partir des labels attribués point par point, tout en garantissant une grande robustesse face aux variations de densité de points (de 100% à 25%).
+
+
+## Notre création : 
+
+### 1. Philosophie du Pipeline : L'Intelligence Géométrique
 
 Plutôt que de nous tourner vers des modèles de Deep Learning 3D très lourds (type VoxelNet), souvent inadaptés aux contraintes d'informatique embarquée, nous avons fait le choix d'une approche déterministe basée sur les signatures morphologiques.
 
@@ -14,7 +31,7 @@ En exploitant directement les propriétés géométriques fondamentales de chaqu
 
 ---
 
-## 2. Détection et Reconstruction Multi-Classes
+### 2. Détection et Reconstruction Multi-Classes
 
 Le jeu de données initial ne fournissant pas directement les boîtes 3D, notre algorithme reconstruit dynamiquement leurs dimensions (`x`, `y`, `z`, `l`, `w`, `h`) en analysant la structure topologique des points :
 
@@ -32,7 +49,7 @@ Le jeu de données initial ne fournissant pas directement les boîtes 3D, notre 
 
 ---
 
-## 3. Alignement des Données & Validation
+### 3. Alignement des Données & Validation
 
 Pour garantir la fiabilité théorique et pratique de notre système, deux choix techniques clés ont été intégrés :
 
@@ -41,7 +58,7 @@ Pour garantir la fiabilité théorique et pratique de notre système, deux choix
 
 ---
 
-## 4. Spécifications & Atouts pour l'Aéronautique
+### 4. Spécifications & Atouts pour l'Aéronautique
 
 * **Nombre de paramètres :** 0
 * **Explicabilité totale :** Dans le secteur aéronautique, l'absence d'effet « boîte noire » est un avantage déterminant : notre algorithme est 100% compréhensible et auditables.
